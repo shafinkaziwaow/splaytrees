@@ -104,7 +104,7 @@ class SplayTree:
             self.root.right = temp
     
     def to_dict(self, node):
-        if node is None:
+        if (node is None):
             return None
         return {
             'key': node.key,
