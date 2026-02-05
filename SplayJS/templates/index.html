@@ -7,13 +7,27 @@
 </head>
 <body>
     <h1>splay tree visualizer</h1>
-    
-    <form action="add_value" method="POST">
-      <input type = "text" name="value" placeholder="insert a value"/>
+
+    <br><br>
+
+    <form action="insert_value" method="POST">
+      <input type = "number" name="value" placeholder="insert a value"/>
       <input type = "submit">
     </form>
-    
+    <br>
+    <form action="delete_value" method="POST">
+      <input type = "number" name="value" placeholder="delete a value"/>
+      <input type = "submit">
+    </form>
+    <br>
+    <form action="find_value" method="POST">
+      <input type = "number" name="value" placeholder="find a value"/>
+      <input type = "submit">
+    </form>
 
+    <div style="width: 100vw; padding-top: 10vh; image-rendering: pixelated;">
+     <canvas id="canvas" width="1000" height="500"style="image-rendering: pixelated; background-color: black; margin-left: auto; margin-right: auto"></canvas>
+    </div>
     <script src="../static/tree.js"></script>
 </body>
 </html>

@@ -11,23 +11,23 @@ class Node:
 class SplayTree:
     def __init__(self):
         self.root = None
-    
+
     def right_rotate(self, x):
         y = x.left
         x.left = y.right
         y.right = x
         return y
-    
+
     def left_rotate(self, x):
         y = x.right
         x.right = y.left
         y.left = x
         return y
-    
+
     def splay(self, root, key):
         if (root is None or root.key == key):
             return root
-        
+
         if (key < root.key):
             if (root.left is None):
                 return root
@@ -42,7 +42,7 @@ class SplayTree:
                 return self.right_rotate(root)
             else:
                 return root
-        
+
         else:
             if (root.right is None):
                 return root
@@ -58,19 +58,19 @@ class SplayTree:
             else:
                 return root
 
-    
+
     def insert(self, key):
         if (self.root is None):
             self.root = Node(key)
             return
-        
+
         self.root = self.splay(self.root, key)
-        
+
         if (self.root.key == key):
-            return  
-        
+            return
+
         new_node = Node(key)
-        
+
         if (key < self.root.key):
             new_node.right = self.root
             new_node.left = self.root.left
@@ -79,22 +79,22 @@ class SplayTree:
             new_node.left = self.root
             new_node.right = self.root.right
             self.root.right = None
-        
+
         self.root = new_node
-    
+
     def search(self, key):
         self.root = self.splay(self.root, key)
         return self.root and self.root.key == key
-    
+
     def delete(self, key):
         if (self.root is None):
             return
-        
+
         self.root = self.splay(self.root, key)
-        
+
         if (self.root.key != key):
-            return  
-        
+            return
+
         if (self.root.left is None):
             self.root = self.root.right
         else:
@@ -102,7 +102,7 @@ class SplayTree:
             self.root = self.root.left
             self.root = self.splay(self.root, key)
             self.root.right = temp
-    
+
     def to_dict(self, node):
         if (node is None):
             return None
@@ -111,7 +111,7 @@ class SplayTree:
             'left': self.to_dict(node.left),
             'right': self.to_dict(node.right)
         }
-    
+
     def get_tree_data(self):
         return self.to_dict(self.root)
 
@@ -124,10 +124,24 @@ tree = SplayTree()
 def disp_site():
     return render_template("index.html")
 
-@app.route("/add_value", methods=["POST"])
-def add_value():
+@app.route("/insert_value", methods=["POST"])
+def insert_value():
     value = request.form.get("value")
+    tree.insert(value)
+    return redirect(url_for("disp_site"))
+
+@app.route("/delete_value", methods=["POST"])
+def delete_value():
+    value = request.form.get("value")
+    tree.delete(value)
+    return redirect(url_for("disp_site"))
+
+@app.route("/find_value", methods=["POST"])
+def find_value():
+    value = request.form.get("value")
+    tree.search(value)
     return redirect(url_for("disp_site"))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.debug = True
+    app.run()
