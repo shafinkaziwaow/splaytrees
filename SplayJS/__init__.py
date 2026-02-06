@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 
 app = Flask(__name__)
 
@@ -141,6 +141,10 @@ def find_value():
     value = request.form.get("value")
     tree.search(value)
     return redirect(url_for("disp_site"))
+
+@app.route("/get_tree")
+def get_tree():
+    return jsonify(tree.get_tree_data())
 
 if __name__ == "__main__":
     app.debug = True
